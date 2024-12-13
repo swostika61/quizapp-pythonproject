@@ -1,0 +1,27 @@
+{% extends 'index.html' %} {% block content %} {% load static %}
+<div class="pt-3 text-center">
+  <h2 class="text-3xl font-bold text-gray-300">All in one QUIZ app</h2>
+</div>
+<div class="container mx-auto mt-6">
+  <div class="flex flex-col md:flex-row justify-center items-center">
+    <div class="md:w-1/2 p-4">
+      <img class="w-full h-auto" src="{% static 'images/undraw_quiz.svg' %}" alt="Quiz Image" />
+    </div>
+    <div class="md:w-1/2 p-4 ">
+      <ul class="list-disc pl-5 ">
+        <h5 class="text-xl font-semibold mb-2 text-gray-300">Features:</h5>
+        <li class="mb-1 text-gray-300">User can select topic of their choice</li>
+        <li class="mb-1 text-gray-300">Random questions are selected every time</li>
+        <li class="mb-1 text-gray-300">Detailed Analysis on past quiz attempts</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="bg-gray-800 text-white py-4">
+  <div class="text-center">
+     Swostika Lamichhane |  Biva Joshi | Prajita Gurung
+  </div>
+</div>
+{% endblock %}

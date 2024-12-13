@@ -1,0 +1,26 @@
+{% extends 'index.html'  %} {% block content %}
+{% load static %}
+ <div class="flex flex-wrap items-center align-middle justify-center mt-20">
+    <form method="POST" class="bg-[#1E293B] rounded-lg items-center flex flex-col p-5">
+        {% csrf_token %}
+        <h2 class="text-gray-300 text-3xl font-extrabold">LOGIN</h2><br>
+        
+            <!-- Email input -->
+            <div class="bg-[#1E293B] m-2 text-gray-300">
+              <label class="form-label flex flex-col" for="username">Username</label>
+              <input type="text" id="username" class="form-control rounded-md bg-[#0D1120] border-none" name="username"  required/>
+            </div>
+          <div class="form-outline m-2 flex flex-col  text-gray-300 ">
+            <label class="form-label" for="password">Password</label>
+
+            <input type="password" id="password" class="form-control rounded-md bg-[#0D1120] border-none" name="password" required />
+          </div>
+      
+          <!-- Submit button -->
+          <button type="submit" class="bg-blue-500 rounded-md px-4 py-1 mt-2 text-gray-200">Log in</button>
+
+          <p class="text-center mt-4 text-gray-300">Don't have account? <a class="text-blue-700" href="{% url 'registration' %}">Register</a></p>
+        
+    </form>   
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "EuclidBold";
+}
+html,body{
+  /* height: 100%; */
+  width: 100%;
+}
+
+
+/* NavbBar */
+.navbar{
+  background-color: #878cf5;
+}
+
+/* Heading */
+.heading-main{
+  color: #878cf5;
+}
+
+/* Homepage */
+.homepage{
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+.homepage .img-fluid {
+  height: 300px;
+  width: 300px;
+  float: right;
+}
+.u-list-home{
+  color:#878cf5;
+  padding: 10px;
+}
+
+.quiz-cards{
+  margin: 10px;
+  padding: 5px;
+  
+}
+.log-re-btn{
+  background-color: #878cf5 !important;
+  color: white !important;
+}
+.fa-heart{
+  color: red;
+}
+
+/* Login and Registration */
+.register-container{
+  padding: 10px;
+}
+.logform {
+  max-width: 300px;
+  padding: 15px 10px;
+  margin: 0 auto;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 198, 238, 0.6),
+    rgba(0, 150, 200, 0.6)
+  );
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(2.0px);
+  -webkit-backdrop-filter: blur(2.0px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.login-container{
+    margin-top: 50px;
+}
+
+
+
+
+.register-container{
+    margin-top: 20px;
+}
+
+/* question Container */
+.question-cont{
+  background-color: #fff;
+  margin-top: 2rem;
+  border-radius: 2rem;
+  padding: 1rem;
+}
+
+
+/* Admin Quizzes */
+.quiz-c-header{
+  padding: .5rem;
+}
+.quiz-c-header .heading-main{
+  display: inline-block !important;
+  vertical-align: middle;
+
+}
+.quiz-c-header .btn {
+  display: inline-block !important;
+  float: right;
+
+}
+
+/* Cards */
+

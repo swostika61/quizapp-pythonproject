@@ -1,0 +1,66 @@
+{% extends 'index.html' %} {% block content %}
+<div>
+<div class="py-4 font-bold text-5xl text-gray-300 flex justify-center">Hey, {{user.get_full_name }} </div>
+{% if scores %}
+<center><a href="/user/select-topic" class="bg-blue-600 text-white px-6 py-3 rounded-md items-center mb-10 flex justify-center w-fit">Take Quiz</a></center>
+{% endif %}
+<div class="m-2">
+{% if scores %}
+<div class="">
+
+
+    <div class="flex row">
+                <div class="flex flex-col justify-center h-fit  bg-[#1E293B] rounded-md text-white pl-2 pr-5 py-2 m-2">
+                    <div class="text-gray-400">Average Score</div>
+
+                    <div class="font-extrabold text-3xl">{{ average_score }}</div>
+                </div>
+                <div class="flex flex-col justify-center h-fit  bg-[#1E293B] rounded-md text-white pl-2 pr-5 py-2 m-2">
+                    <div class="text-gray-400">Highest Score</div>
+
+                    <div class="font-extrabold text-3xl">{{ highest_score }}</div>
+                </div>
+                <div class="flex flex-col justify-center h-fit  bg-[#1E293B] rounded-md text-white pl-2 pr-5 py-2 m-2">
+                    <div class="text-gray-400">Lowest Score</div>
+
+                    <div class="font-extrabold text-3xl">{{ lowest_score }}</div>
+                </div>
+                <div class="flex flex-col justify-center h-fit  bg-[#1E293B] rounded-md text-white pl-2 pr-5 py-2 m-2">
+                    <div class="text-gray-400">Played Times</div>
+
+                    <div class="font-extrabold text-3xl">{{ total_attempts }}</div>
+                </div>
+               
+          
+        </div>
+    </div>
+  
+    <h2 class="text-gray-300 text-3xl ml-2 mt-5"> Past Quiz Scores</h2>
+
+    <div class="flex flex-wrap row row-auto">
+    {% for item in scores %}
+    <div class="bg-[#1E293B] rounded-md mx-2 my-2 p-2">
+        <div class="">
+            {% if item.score >= 3 %}
+                <div class="text-white font-bold text-center bg-green-700 w-3 px-[15px] py-[5px] rounded-sm flex justify-center items-center">{{ item.score }}</div>
+            {% else %}
+                <div class="text-white font-bold text-center bg-red-700 w-3 px-[15px] py-[5px] rounded-sm flex justify-center items-center">{{ item.score }}</div>
+            {% endif %}
+{% load tz %}
+       
+        <div class="text-gray-400 text-sm">Date: {{ item.date|localtime|date:"F j, Y" }}</div>
+        <div class="text-gray-400 text-sm">Time: {{ item.date|localtime|date:"g:i A" }}</div>
+        </div>
+    </div>
+    {%endfor%}
+    </div>
+        
+</div>
+    {% else %}
+    <div class="flex flex-col justify-center items-center  w-full m-2">
+        <div class="text-lg mt-5 text-gray-400 text-center">You have not taken any quiz. Take a quiz to view your scores</div>
+        <a href="/user/select-topic" class="bg-blue-600 text-white px-6 py-3 rounded-md mt-4 font-bold">Take Quiz</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

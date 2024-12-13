@@ -1,0 +1,84 @@
+{% extends 'index.html' %} {% block content %}
+<div class="flex flex-wrap items-center justify-center mt-20">
+  <form method="POST" class="bg-[#1E293B] p-5 rounded-lg text-gray-300">
+    {% csrf_token %}
+    <h2
+      class="justify-center items-center flex flex-wrap text-2xl font-extrabold"
+    >
+      Please Register
+    </h2>
+    <br />
+    <div class="bg-[#1E293B] my-2 text-gray-300 flex flex-row">
+      <div class="form-group col-md-6">
+        <input
+          type="text"
+          class="form-control rounded-md bg-[#0D1120] border-none mx-2"
+          placeholder="Enter First Name"
+          name="f_name"
+          required
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <input
+          type="text"
+          class="form-control rounded-md bg-[#0D1120] border-none"
+          placeholder="Enter Last name"
+          name="l_name"
+          required
+        />
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div class="form-group m-1">
+        <input
+          type="text"
+          class="form-control rounded-md bg-[#0D1120] border-none"
+          id="username"
+          placeholder="Enter Username"
+          name="username"
+          required
+        />
+      </div>
+      <div class="form-group m-1">
+        <input
+          type="email"
+          class="form-control rounded-md bg-[#0D1120] border-none"
+          id="email"
+          placeholder="Enter Email"
+          name="email"
+          required
+        />
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div class="form-group m-1">
+        <input
+          type="password"
+          class="form-control rounded-md bg-[#0D1120] border-none"
+          id="password"
+          placeholder="Enter Password"
+          name="password"
+          required
+        />
+      </div>
+      <div class="form-group m-1">
+        <input
+          type="password"
+          class="form-control rounded-md bg-[#0D1120] border-none"
+          id="cpassword"
+          placeholder="Confirm Password"
+          name="c_password"
+          required
+        />
+      </div>
+    </div>
+   <div class="flex justify-center"> <button
+      type="submit"
+      class="bg-blue-500 rounded-md px-5 py-2 mt-2 text-gray-200 items-center flex flex-wrap justify-center"
+    >
+      Sign Up
+    </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

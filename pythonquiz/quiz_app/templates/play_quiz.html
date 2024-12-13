@@ -1,0 +1,180 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container mx-auto py-8">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-300">Answer all 5 Questions</h2>
+    {% comment %} <a href="/staff/create-quiz" class="btn btn-primary">Create Quiz</a> {% endcomment %}
+
+    <form method="post" id="quizForm" class="space-y-6">
+        {% csrf_token %}
+        {% for quiz in quizzes_list %}
+            <div class="bg-[#1E293B] shadow-md rounded-lg p-6" id="quiz_card_{{ quiz.id }}">
+                <div class="mb-4 bg-[#3b5073] p-4 rounded-lg">
+                    <h5 class="text-xl text-white font-semibold">{{ quiz.question }}</h5>
+                </div>
+                <div class="space-y-2 flex flex-col w-fit">
+                    <div class=" inline-block bg-gray-600 p-1 rounded-md pr-5">
+                        <input class="form-check-input mr-2" type="radio" name="quiz_{{ quiz.id }}" id="quiz_{{ quiz.id }}_option1" value="{{ quiz.option1 }}">
+                        <label class="form-check-label text-gray-300" for="quiz_{{ quiz.id }}_option1">
+                            {{ quiz.option1 }}
+                        </label>
+                    </div>
+                    <div class="inline-block bg-gray-600 p-1 rounded-md pr-5">
+                        <input class="form-check-input mr-2" type="radio" name="quiz_{{ quiz.id }}" id="quiz_{{ quiz.id }}_option2" value="{{ quiz.option2 }}">
+                        <label class="form-check-label text-gray-300" for="quiz_{{ quiz.id }}_option2 ">
+                            {{ quiz.option2 }}
+                        </label>
+                    </div>
+                    <div class="inline-block bg-gray-600 p-1 rounded-md pr-5">
+                        <input class="form-check-input mr-2" type="radio" name="quiz_{{ quiz.id }}" id="quiz_{{ quiz.id }}_option3" value="{{ quiz.option3 }}">
+                        <label class="form-check-label text-gray-300" for="quiz_{{ quiz.id }}_option3">
+                            {{ quiz.option3 }}
+                        </label>
+                    </div>
+                    <div class="inline-block bg-gray-600 p-1 rounded-md pr-5">
+                        <input class="form-check-input mr-2 " type="radio" name="quiz_{{ quiz.id }}" id="quiz_{{ quiz.id }}_option4" value="{{ quiz.option4 }}">
+                        <label class="form-check-label text-gray-300" for="quiz_{{ quiz.id }}_option4">
+                            {{ quiz.option4 }}
+                        </label>
+                    </div>
+                </div>
+                <div class="text-red-500 mt-2 hidden" id="quiz_error_{{ quiz.id }}">
+                    Please select an option for this question.
+                </div>
+            </div>
+        {% endfor %}
+        {% if quizzes_list %}
+        <input type="hidden" name="score" value="0" id="score" />
+        <div class="text-center">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Submit</button>
+        </div>
+        {% else %}
+        <div class="text-center">
+            <p class="text-red-500">No quizzes available for this topic.</p>
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Modal -->
+<div id="scoreModal" class="fixed inset-0  items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg p-8 max-w-sm mx-auto flex flex-col">
+        <h2 class="text-2xl font-bold mb-4">Quiz Result</h2>
+        <p id="scoreText" class="text-lg mb-4"></p>
+        <p id="scoreMessage" class="text-lg mb-4"></p>
+        <div class="flex justify-between">
+            <button id="closeModal" class="bg-red-600 text-white px-4 py-2 rounded-md">Close</button>
+            <button id="takeAgainButton" class="bg-blue-500 text-white px-4 py-2 rounded-md">Take Again</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('quizForm');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let isValid = true;
+            let score = 0;
+            const quizzes = {{ quizzes_list|safe }};
+            console.log(quizzes);
+
+            for (let i = 0; i < quizzes.length; i++) {
+                const quiz = quizzes[i];
+                let options = document.getElementsByName('quiz_' + quiz.id);
+                let isAnswered = false;
+                const correctAnswer = quiz.answer;
+
+                // Check if any option is selected
+                for (let j = 0; j < options.length; j++) {
+                    if (options[j].checked) {
+                        isAnswered = true;
+                        if (options[j].value === correctAnswer) {
+                            score += 1;
+                        }
+                    }
+                }
+
+                const errorElement = document.getElementById('quiz_error_' + quiz.id);
+
+                if (!isAnswered) {
+                    isValid = false;
+                    errorElement.classList.remove('hidden');
+                } else {
+                    errorElement.classList.add('hidden');
+                }
+            }
+
+            if (!isValid) {
+                alert("Please answer all the questions.");
+                return;
+            }
+
+            // Calculate percentage
+            const totalQuestions = quizzes.length;
+            const percentage = (score / totalQuestions) * 100;
+
+            // Determine message based on score
+            let message = "";
+            if (score <= 2) {
+                message = "Please try again!";
+            } else if (score === 3) {
+                message = "Good job!";
+            } else if (score === 4) {
+                message = "Excellent work!";
+            } else if (score === 5) {
+                message = "You are a genius!";
+            }
+
+            if (score >= 3) {
+                document.getElementById('takeAgainButton').classList.add('hidden');
+            }
+
+            // Display the score and message in the modal
+            document.getElementById('score').value = score;
+            const scoreText = document.getElementById('scoreText');
+            scoreText.textContent = `Your score: ${score}/${totalQuestions} (${percentage}%)`;
+
+            const scoreMessage = document.getElementById('scoreMessage');
+            scoreMessage.textContent = message;
+
+            // Add an icon to the score display
+            const scoreIcon = document.createElement('i');
+            scoreIcon.classList.add('fas', 'fa-check-circle', 'text-green-500', 'mr-2');
+            scoreText.prepend(scoreIcon);
+
+            const scoreModal = document.getElementById('scoreModal');
+            scoreModal.classList.remove('hidden');
+
+            const closeModal = document.getElementById('closeModal');
+            closeModal.addEventListener('click', function () {
+                const isRetakeInput = document.createElement('input');
+            isRetakeInput.type = 'hidden';
+            isRetakeInput.name = 'is_retake';
+            isRetakeInput.value = 'false';
+            form.appendChild(isRetakeInput);
+                form.submit();
+            });
+
+            const takeAgainButton = document.getElementById('takeAgainButton');
+            takeAgainButton.addEventListener('click', function () {
+              
+            // Add hidden input to indicate quiz retake
+            const isRetakeInput = document.createElement('input');
+            isRetakeInput.type = 'hidden';
+            isRetakeInput.name = 'is_retake';
+            isRetakeInput.value = 'true';
+            form.appendChild(isRetakeInput);
+
+            form.submit();
+        
+            });
+
+        });
+    });
+</script>
+
+{% endblock %}
+
